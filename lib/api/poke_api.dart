@@ -1,7 +1,6 @@
 
 import 'package:dio/dio.dart';
 import 'package:layouts/models/IPokemon.dart';
-import 'package:layouts/models/IPokemonItem.dart';
 import 'package:layouts/models/result.dart';
 import 'package:retrofit/retrofit.dart';
 
@@ -18,7 +17,7 @@ abstract class PokeApi {
   @DioResponseType(ResponseType.json)
   Future<Result> getPokemonItems();
 
-  @GET("/{PokemonId}")
+  @GET("/{pokemonId}")
   @DioResponseType(ResponseType.json)
-  Future<IPokemon> getPokemon(@Path() String PokemonId);
+  Future<IPokemon> getPokemon(@Path() String pokemonId);
 }

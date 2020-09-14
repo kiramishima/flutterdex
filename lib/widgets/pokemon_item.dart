@@ -1,8 +1,16 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:layouts/models/IPokemon.dart';
+
+extension StringExtension on String {
+  String capitalize() {
+    return "${this[0].toUpperCase()}${this.substring(1)}";
+  }
+}
 
 class PokemonItem extends StatelessWidget {
-  final String Name;
-  PokemonItem({this.Name});
+  final IPokemon pokemon;
+  PokemonItem({this.pokemon});
 
   @override
   Widget build(BuildContext context) {
@@ -15,16 +23,17 @@ class PokemonItem extends StatelessWidget {
       child: Column(
         children: <Widget>[
           Expanded(
-              child: Image.network(
-                  "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/1.png",
-                  width: 250.0,
-                  height: 250.0,
+              child: CachedNetworkImage(
+                imageUrl: pokemon.Sprites.Other.OfficialArtWork["front_default"],
+                width: 250.0,
+                height: 250.0,
+                placeholder: (context, url) => Center(child: CircularProgressIndicator(),),
               )
           ),
           Container(
             padding: EdgeInsets.all(10),
             child: Text(
-              "Bulbasaur",
+              pokemon.Name.capitalize(),
               textAlign: TextAlign.center,
               style: TextStyle(
                 color: Colors.white,

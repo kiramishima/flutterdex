@@ -27,14 +27,19 @@ class _HomePageState extends State<HomePage> {
   }
 
   void loadPokemons() async {
+    List<IPokemon> temp = [];
     Result resp = await _apiClient.getPokemonItems();
       // Get The Pokemons Image
     for (IPokemonItem item in resp.Data) {
       final List<String> _elements = item.Url.split('/').toList();
       var id = _elements.elementAt(6);
       var pokemon = await _apiClient.getPokemon(id);
-      pokes.add(pokemon);
+      temp.add(pokemon);
     }
+
+    setState(() {
+      pokes = temp;
+    });
   }
 
   @override
@@ -48,18 +53,19 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
       ),
-      body: GridView.count(
+      body: /*GridView.count(
         crossAxisCount: 2,
         children: <Widget>[
           for(var item in pokes) PokemonItem(Name: item.Name,)
         ],
-      )/*GridView.builder(
+      )*/GridView.builder(
         itemCount: pokes.length,
         gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
         itemBuilder: (context, int index) {
-          return PokemonItem(Name: pokes.elementAt(index).Name,);
+          IPokemon item = pokes.elementAt(index);
+          return PokemonItem(pokemon: item,);
         }
-      ),*/
+      ),
     );
   }
 }

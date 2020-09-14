@@ -35,13 +35,13 @@ class _PokeApi implements PokeApi {
   }
 
   @override
-  getPokemon(PokemonId) async {
-    ArgumentError.checkNotNull(PokemonId, 'PokemonId');
+  getPokemon(pokemonId) async {
+    ArgumentError.checkNotNull(pokemonId, 'pokemonId');
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _data = <String, dynamic>{};
     final Response<Map<String, dynamic>> _result = await _dio.request(
-        '/$PokemonId',
+        '/$pokemonId',
         queryParameters: queryParameters,
         options: RequestOptions(
             method: 'GET',
