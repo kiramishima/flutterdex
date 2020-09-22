@@ -44,28 +44,66 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final screenSize = MediaQuery.of(context).size;
+    final pokeSize = screenSize.width * 0.66;
+    final pokeTop = -(screenSize.width * 0.154);
+    final pokeRight = -(screenSize.width * 0.23);
+    final appBarTop = pokeSize / 2 + pokeTop - IconTheme.of(context).size / 2;
+
     return new Scaffold(
-      appBar: new AppBar(
-        title: new Text(
-          widget.title,
-          style: TextStyle(
-            color: Colors.white
-          ),
+      body: Container(
+        width: screenSize.width,
+        height: screenSize.height,
+        color: Colors.black12,
+        child: Stack(
+          children: <Widget>[
+            Positioned(
+              top: pokeTop,
+              right: pokeRight,
+              child: Image.asset(
+                "assets/images/pokeball.png",
+                width: pokeSize,
+                height: pokeSize,
+                color: Color(0xFF303943).withOpacity(0.25),
+              ),
+            ),
+            GridView.builder(
+                physics: BouncingScrollPhysics(),
+                itemCount: pokes.length,
+                padding: EdgeInsets.only(left: 10, right: 10, top: 58),
+                gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
+                itemBuilder: (context, int index) {
+                  IPokemon item = pokes.elementAt(index);
+                  return PokemonItem(pokemon: item,);
+                }
+            )
+            /*Column(
+              mainAxisSize: MainAxisSize.max,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+
+              children: <Widget>[
+                GridView.builder(
+                  physics: BouncingScrollPhysics(),
+                    itemCount: pokes.length,
+                    padding: EdgeInsets.only(left: 28, right: 28, bottom: 58),
+                    gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
+                    itemBuilder: (context, int index) {
+                      IPokemon item = pokes.elementAt(index);
+                      return PokemonItem(pokemon: item,);
+                    }
+                )
+              ],
+            )*/
+          ],
         ),
-      ),
-      body: /*GridView.count(
-        crossAxisCount: 2,
-        children: <Widget>[
-          for(var item in pokes) PokemonItem(Name: item.Name,)
-        ],
-      )*/GridView.builder(
+      )/*GridView.builder(
         itemCount: pokes.length,
         gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
         itemBuilder: (context, int index) {
           IPokemon item = pokes.elementAt(index);
           return PokemonItem(pokemon: item,);
         }
-      ),
+      )*/,
     );
   }
 }

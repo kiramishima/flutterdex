@@ -10,6 +10,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      color: Colors.white,
       title: 'Pokedex',
       theme: ThemeData(
         primarySwatch: Colors.red,

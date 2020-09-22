@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:layouts/models/ColorTypes.dart';
 import 'package:layouts/models/IPokemon.dart';
 
 extension StringExtension on String {
@@ -12,11 +13,15 @@ class PokemonItem extends StatelessWidget {
   final IPokemon pokemon;
   PokemonItem({this.pokemon});
 
+  Color getColor() {
+    return ColorTypes[pokemon.Types[0].Type.Name];
+  }
+
   @override
   Widget build(BuildContext context) {
     return Card(
       elevation: 15.0,
-      color: Colors.cyan,
+      color: getColor(),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(15.0)
       ),
