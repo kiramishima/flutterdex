@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:layouts/routes.dart';
 import 'package:layouts/widgets/home_page.dart';
 
 void main() {
-  runApp(MyApp());
+  Routes.createRoutes();
+  runApp(App());
 }
 
-class MyApp extends StatelessWidget {
+class App extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -17,6 +19,8 @@ class MyApp extends StatelessWidget {
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       home: HomePage(title: 'Pokedex'),
+      navigatorKey: Routes.sailor.navigatorKey,
+      onGenerateRoute: Routes.sailor.generator(),
     );
   }
 }
