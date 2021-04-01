@@ -17,7 +17,7 @@ abstract class PokeApi {
   @DioResponseType(ResponseType.json)
   Future<Result> getPokemonItems();
 
-  @GET("/{pokemonId}")
+  @GET("/{pokemonId}/")
   @DioResponseType(ResponseType.json)
   Future<IPokemon> getPokemon(@Path() String pokemonId);
 }
