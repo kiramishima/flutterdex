@@ -11,13 +11,10 @@ IPokemon _$IPokemonFromJson(Map<String, dynamic> json) {
     json['id'] as int,
     json['height'] as int,
     json['name'] as String,
-    (json['types'] as List)
-        ?.map((e) =>
-            e == null ? null : IPokemonType.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    json['sprites'] == null
-        ? null
-        : ISprite.fromJson(json['sprites'] as Map<String, dynamic>),
+    (json['types'] as List<dynamic>)
+        .map((e) => IPokemonType.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    ISprite.fromJson(json['sprites'] as Map<String, dynamic>),
   );
 }
 

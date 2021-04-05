@@ -10,11 +10,10 @@ Result _$ResultFromJson(Map<String, dynamic> json) {
   return Result(
     Count: json['count'] as int,
     Next: json['next'] as String,
-    Previous: json['previous'] as String,
-    Data: (json['results'] as List)
-        ?.map((e) =>
-            e == null ? null : IPokemonItem.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    Previous: json['previous'] as String?,
+    Data: (json['results'] as List<dynamic>)
+        .map((e) => IPokemonItem.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 

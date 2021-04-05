@@ -8,49 +8,59 @@ part of 'poke_api.dart';
 
 class _PokeApi implements PokeApi {
   _PokeApi(this._dio, {this.baseUrl}) {
-    ArgumentError.checkNotNull(_dio, '_dio');
-    this.baseUrl ??= 'https://pokeapi.co/api/v2/pokemon';
+    baseUrl ??= 'https://pokeapi.co/api/v2/pokemon';
   }
 
   final Dio _dio;
 
-  String baseUrl;
+  String? baseUrl;
 
   @override
-  getPokemonItems() async {
+  Future<Result> getPokemonItems() async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _data = <String, dynamic>{};
-    final Response<Map<String, dynamic>> _result = await _dio.request('/',
-        queryParameters: queryParameters,
-        options: RequestOptions(
-            method: 'GET',
-            headers: <String, dynamic>{},
-            extra: _extra,
-            baseUrl: baseUrl,
-            responseType: ResponseType.json),
-        data: _data);
-    final value = Result.fromJson(_result.data);
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<Result>(Options(
+                method: 'GET',
+                headers: <String, dynamic>{},
+                extra: _extra,
+                responseType: ResponseType.json)
+            .compose(_dio.options, '/',
+                queryParameters: queryParameters, data: _data)
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = Result.fromJson(_result.data!);
     return value;
   }
 
   @override
-  getPokemon(pokemonId) async {
-    ArgumentError.checkNotNull(pokemonId, 'pokemonId');
+  Future<IPokemon> getPokemon(pokemonId) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _data = <String, dynamic>{};
-    final Response<Map<String, dynamic>> _result = await _dio.request(
-        '/$pokemonId',
-        queryParameters: queryParameters,
-        options: RequestOptions(
-            method: 'GET',
-            headers: <String, dynamic>{},
-            extra: _extra,
-            baseUrl: baseUrl,
-            responseType: ResponseType.json),
-        data: _data);
-    final value = IPokemon.fromJson(_result.data);
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<IPokemon>(Options(
+                method: 'GET',
+                headers: <String, dynamic>{},
+                extra: _extra,
+                responseType: ResponseType.json)
+            .compose(_dio.options, '/$pokemonId/',
+                queryParameters: queryParameters, data: _data)
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = IPokemon.fromJson(_result.data!);
     return value;
+  }
+
+  RequestOptions _setStreamType<T>(RequestOptions requestOptions) {
+    if (T != dynamic &&
+        !(requestOptions.responseType == ResponseType.bytes ||
+            requestOptions.responseType == ResponseType.stream)) {
+      if (T == String) {
+        requestOptions.responseType = ResponseType.plain;
+      } else {
+        requestOptions.responseType = ResponseType.json;
+      }
+    }
+    return requestOptions;
   }
 }

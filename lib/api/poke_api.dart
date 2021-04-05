@@ -9,9 +9,7 @@ part 'poke_api.g.dart';
 @RestApi(baseUrl: "https://pokeapi.co/api/v2/pokemon")
 abstract class PokeApi {
 
-  factory PokeApi(Dio dio, {String baseUrl}) {
-    return _PokeApi(dio, baseUrl: baseUrl);
-  }
+  factory PokeApi(Dio dio, {String baseUrl}) = _PokeApi;
 
   @GET("/")
   @DioResponseType(ResponseType.json)

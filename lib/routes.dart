@@ -8,7 +8,7 @@ class Routes {
     sailor.addRoute(SailorRoute(
       name: "/{}/detail",
       builder: (context, args, params) {
-        return HomePage();
+        return HomePage(title: '',);
       },
     ));
   }

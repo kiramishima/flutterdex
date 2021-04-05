@@ -7,10 +7,13 @@ import 'package:layouts/models/result.dart';
 
 class PokemonRepository extends ChangeNotifier {
   final _apiClient = PokeApi(Dio());
-  PokemonRepository();
+  IPokemon? pokemon;
 
-  Future<List<IPokemon>> getPokemonItems(ref) async {
-    List<IPokemon> temp = [];
+  List<IPokemon> data = [];
+  bool isLoading = false;
+
+  Future<void> getPokemonItems() async {
+    this.isLoading = true;
     Result resp = await this._apiClient.getPokemonItems();
 
     // Get The Pokemons Image
@@ -18,13 +21,16 @@ class PokemonRepository extends ChangeNotifier {
       final List<String> _elements = item.Url.split('/').toList();
       var id = _elements.elementAt(6);
       var pokemon = await _apiClient.getPokemon(id);
-      temp.add(pokemon);
+      this.data.add(pokemon);
     }
-
-    return temp;
+    this.isLoading = false;
+    notifyListeners();
   }
 
-  Future<IPokemon> getPokemon(String pokemonId) {
-
+  Future<void> getPokemon(String pokemonName) async {
+    this.isLoading = true;
+    this.pokemon = await this._apiClient.getPokemon(pokemonName);
+    this.isLoading = false;
+    notifyListeners();
   }
 }

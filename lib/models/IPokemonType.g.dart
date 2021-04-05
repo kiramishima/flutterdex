@@ -9,9 +9,7 @@ part of 'IPokemonType.dart';
 IPokemonType _$IPokemonTypeFromJson(Map<String, dynamic> json) {
   return IPokemonType(
     json['slot'] as int,
-    json['type'] == null
-        ? null
-        : IType.fromJson(json['type'] as Map<String, dynamic>),
+    IType.fromJson(json['type'] as Map<String, dynamic>),
   );
 }
 

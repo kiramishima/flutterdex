@@ -8,7 +8,7 @@ class ISprite {
   @JsonKey(name: 'other')
   final ISpriteOther Other;
 
-  ISprite({this.Other});
+  ISprite({required this.Other});
 
   factory ISprite.fromJson(Map<String, dynamic> json) => _$ISpriteFromJson(json);
 }
@@ -16,9 +16,9 @@ class ISprite {
 @JsonSerializable()
 class ISpriteOther {
   @JsonKey(name: 'dream_world')
-  final Map<String, String> DreamWorld;
+  final Map<String, dynamic?> DreamWorld;
   @JsonKey(name: 'official-artwork')
-  final Map<String, String> OfficialArtWork;
+  final Map<String, dynamic?> OfficialArtWork;
 
   ISpriteOther(this.DreamWorld, this.OfficialArtWork);
 
